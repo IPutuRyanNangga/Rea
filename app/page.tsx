@@ -11,6 +11,7 @@ export default function PremiumMemoryBook() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
+  // PERBAIKAN TYPESCRIPT 1
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -98,6 +99,7 @@ export default function PremiumMemoryBook() {
     }
   };
 
+  // PERBAIKAN TYPESCRIPT 2
   const paginate = (newDirection: number) => {
     if (
       (newDirection === 1 && currentPage < bookPages.length - 1) ||
@@ -108,6 +110,7 @@ export default function PremiumMemoryBook() {
     }
   };
 
+  // PERBAIKAN TYPESCRIPT 3
   const pageVariants = {
     initial: (dir: number) => ({
       rotateY: dir === 1 ? 90 : -90,
