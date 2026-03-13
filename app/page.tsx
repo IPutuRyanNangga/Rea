@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, ChevronRight, ChevronLeft, Pause, Play, Sparkles, BookOpen, ArrowLeft, RefreshCw } from 'lucide-react';
 
 export default function PremiumMemoryBook() {
-  // Menggunakan 'step' untuk mengatur alur: 'intro' -> 'book' -> 'outro'
   const [step, setStep] = useState('intro'); 
   const [currentPage, setCurrentPage] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -22,7 +21,6 @@ export default function PremiumMemoryBook() {
     return () => window.removeEventListener('mousemove', updateMousePosition);
   }, []);
 
-  // KONTEN BUKU (Tidak ada yang diubah, persis seperti milikmu)
   const bookPages = [
     {
       id: 0,
@@ -81,7 +79,7 @@ export default function PremiumMemoryBook() {
   };
 
   const handleFinish = () => {
-    setStep('outro'); // Masuk ke animasi penutup
+    setStep('outro');
   };
 
   const handleRestart = () => {
@@ -153,7 +151,6 @@ export default function PremiumMemoryBook() {
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden relative font-sans md:cursor-default">
       
-      {/* Custom Mouse Cursor */}
       <motion.div
         className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[100] hidden md:flex items-center justify-center mix-blend-screen"
         animate={{ x: mousePosition.x - 12, y: mousePosition.y - 12 }}
@@ -165,7 +162,6 @@ export default function PremiumMemoryBook() {
 
       <audio ref={audioRef} loop src="/lagu.mp3" />
 
-      {/* ================= LATAR BELAKANG MAGIS ================= */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }} 
@@ -210,11 +206,9 @@ export default function PremiumMemoryBook() {
           </motion.div>
         ))}
       </div>
-      {/* ========================================================= */}
 
       <AnimatePresence mode="wait">
         
-        {/* FASE 1: INTRO */}
         {step === 'intro' && (
           <motion.div
             key="intro"
@@ -258,18 +252,15 @@ export default function PremiumMemoryBook() {
           </motion.div>
         )}
 
-        {/* FASE 2: BUKU UTAMA */}
         {step === 'book' && (
           <motion.div
             key="book-section"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            // Animasi saat keluar (Tutup Buku) ke bawah & mengecil
             exit={{ opacity: 0, y: 100, scale: 0.8, rotateX: 20 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="w-full flex flex-col items-center z-10 relative"
           >
-            {/* Tombol KEMBALI */}
             <motion.button
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -281,7 +272,6 @@ export default function PremiumMemoryBook() {
               <span className="font-medium tracking-wide text-sm">Tutup</span>
             </motion.button>
 
-            {/* Tombol Musik */}
             <div className="absolute top-0 right-2 sm:top-6 sm:right-6 z-50">
               <motion.button
                 initial={{ opacity: 0, x: 20 }}
@@ -302,7 +292,6 @@ export default function PremiumMemoryBook() {
               </motion.button>
             </div>
 
-            {/* Buku Container */}
             <div className="w-full max-w-5xl relative perspective-[2000px] flex justify-center mt-20 sm:mt-10">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
@@ -330,7 +319,6 @@ export default function PremiumMemoryBook() {
                     </div>
                   ) : (
                     <div className="flex-1 flex flex-col lg:flex-row h-full relative z-10 overflow-y-auto overflow-x-hidden">
-                      {/* Bagian Foto */}
                       <div className="w-full lg:w-1/2 p-6 lg:p-12 flex items-center justify-center bg-[#f2ebd9] border-b lg:border-b-0 lg:border-r border-[#d4c5b9] relative overflow-hidden min-h-[300px]">
                         <motion.div 
                           whileHover={{ scale: 1.05, rotate: -2 }}
@@ -346,7 +334,6 @@ export default function PremiumMemoryBook() {
                         </motion.div>
                       </div>
                       
-                      {/* Bagian Teks & Form Komentar */}
                       <div className="w-full lg:w-1/2 p-6 lg:p-14 flex flex-col justify-center bg-gradient-to-br from-[#faf8f5] to-[#f4eee4]">
                         <div className="flex items-center gap-3 mb-4 lg:mb-6">
                           <Sparkles className="text-rose-400" size={24} />
@@ -395,7 +382,6 @@ export default function PremiumMemoryBook() {
               </AnimatePresence>
             </div>
 
-            {/* Navigasi Pagination */}
             <div className="flex items-center gap-4 sm:gap-8 mt-6 sm:mt-10 mb-8 sm:mb-0">
               <button 
                 onClick={() => paginate(-1)}
@@ -420,7 +406,6 @@ export default function PremiumMemoryBook() {
                 ))}
               </div>
 
-              {/* Tombol Akhir: Selesai (Menutup Buku) */}
               {currentPage === bookPages.length - 1 ? (
                 <button 
                   onClick={handleFinish}
@@ -443,13 +428,12 @@ export default function PremiumMemoryBook() {
           </motion.div>
         )}
 
-        {/* FASE 3: OUTRO (I LOVE U) */}
         {step === 'outro' && (
           <motion.div
             key="outro"
             initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }} // Delay sebentar agar animasi buku tutup terlihat
+            transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }} 
             className="z-50 flex flex-col items-center justify-center text-center absolute inset-0 m-auto h-screen"
           >
             <motion.div
@@ -476,7 +460,7 @@ export default function PremiumMemoryBook() {
               transition={{ delay: 2, duration: 1.5 }}
               className="text-rose-200/80 text-xl md:text-3xl mb-12 font-light tracking-widest italic"
             >
-              Sekali lagi maaf aku ga bisa romantis
+              Sekali lagi, maaf aku ga bisa romantis hehehe
             </motion.p>
 
             <motion.button
